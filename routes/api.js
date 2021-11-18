@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const uniqid = require('uniqid')
+const uniqid = require('uniqid');
 
 router.get('/:id', async (req, res) => {
     try {
