@@ -11,6 +11,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/:id/purchases', async (req, res) => {
+    try {
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id});
+        res.send(result.purchases);
+    } catch (e) {
+        console.error(e);
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: req.body});
