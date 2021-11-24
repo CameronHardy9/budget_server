@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const uniqid = require('uniqid');
 
+
+// GET FULL DOCUMENT
 router.get('/:id', async (req, res) => {
     try {
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id});
@@ -11,6 +13,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// GET ALL PURCHASES OBJECTS
 router.get('/:id/purchases', async (req, res) => {
     try {
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id});
@@ -20,6 +23,7 @@ router.get('/:id/purchases', async (req, res) => {
     }
 });
 
+//UPDATE PURCHASES OBJECT WITH NEW PURCHASE
 router.put('/:id/:store/:date', async (req, res) => {
     const id = uniqid()
     try {
