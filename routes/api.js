@@ -20,13 +20,25 @@ router.get('/:id/purchases', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id/:store/:date', async (req, res) => {
+    const id = uniqid()
     try {
-        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: req.body});
+        const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
+        const newDoc = {
+            ...current,
+            purchases: {
+                ...current.purchases,
+                [id]: {
+                    "store": req.params.store,
+                    "date": req.params.date
+                  }
+            }
+        }
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
         res.send(result);
     } catch (e) {
-        console.error(e)
+        console.error(e);
     }
-})
+});
 
 module.exports = router;
