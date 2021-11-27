@@ -24,7 +24,7 @@ router.get('/:id/purchases', async (req, res) => {
 });
 
 //UPDATE PURCHASES OBJECT WITH NEW PURCHASE
-router.put('/:id/:store/:date', async (req, res) => {
+router.put('/:id/add/:store/:date', async (req, res) => {
     const id = uniqid()
     try {
         const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
@@ -38,6 +38,20 @@ router.put('/:id/:store/:date', async (req, res) => {
                   }
             }
         }
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
+        res.send(result);
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+router.delete ('/:id/delete/:purchaseId', async (req, res) => {
+    try {
+        const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
+        const newDoc = {...current};
+        
+        delete newDoc.purchases[req.params.purchaseId];
+
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
         res.send(result);
     } catch (e) {
