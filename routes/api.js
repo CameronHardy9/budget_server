@@ -24,19 +24,21 @@ router.get('/:id/purchases', async (req, res) => {
 });
 
 //UPDATE PURCHASES OBJECT WITH NEW PURCHASE
-router.put('/:id/add/:store/:date', async (req, res) => {
+router.put('/:id/add/:store/:amount/:date', async (req, res) => {
     const id = uniqid()
     try {
         const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
         const newDoc = {
             ...current,
-            purchases: {
+            purchases: [
                 ...current.purchases,
-                [id]: {
+                {
+                    "uniqid": id,
                     "store": req.params.store,
+                    "amount": req.params.amount,
                     "date": req.params.date
-                  }
-            }
+                }
+            ]
         }
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
         res.send(result);
