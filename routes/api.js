@@ -35,7 +35,7 @@ router.put('/:id/add/:store/:amount/:date', async (req, res) => {
                 {
                     "uniqid": id,
                     "store": req.params.store,
-                    "amount": req.params.amount,
+                    "amount": parseInt(req.params.amount),
                     "date": req.params.date
                 }
             ]
