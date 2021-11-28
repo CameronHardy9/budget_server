@@ -52,7 +52,12 @@ router.delete ('/:id/delete/:purchaseId', async (req, res) => {
         const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
         const newDoc = {...current};
         
-        delete newDoc.purchases[req.params.purchaseId];
+        newDoc.purchases.forEach((item, index) => {
+            if (item.uniqid === req.params.purchaseId) {
+                newDoc.purchases.splice(index, 1)
+                console.log(newDoc);
+            }
+        });
 
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
         res.send(result);
