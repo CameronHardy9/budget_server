@@ -47,6 +47,7 @@ router.put('/:id/add/:store/:amount/:date', async (req, res) => {
     }
 });
 
+//DELETE SELECTED PURCHASE
 router.delete ('/:id/delete/:purchaseId', async (req, res) => {
     try {
         const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
