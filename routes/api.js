@@ -40,8 +40,8 @@ router.put('/:id/add/:store/:amount/:date', async (req, res) => {
                 }
             ]
         }
-        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
-        res.send(result);
+        await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
+        res.send(newDoc);
     } catch (e) {
         console.error(e);
     }
@@ -56,12 +56,11 @@ router.delete ('/:id/delete/:purchaseId', async (req, res) => {
         newDoc.purchases.forEach((item, index) => {
             if (item.uniqid === req.params.purchaseId) {
                 newDoc.purchases.splice(index, 1)
-                console.log(newDoc);
             }
         });
 
-        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
-        res.send(result);
+        await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
+        res.send(newDoc);
     } catch (e) {
         console.error(e);
     }
