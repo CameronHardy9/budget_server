@@ -23,6 +23,21 @@ router.get('/:id/purchases', async (req, res) => {
     }
 });
 
+//UPDATE CURRENT BUDGET
+router.put('/:id/budget/:amount', async (req, res) => {
+    try {
+        const current = await req.app.locals.client.db("Family_Budget_App").collection("Budget").findOne({"_id": req.params.id})
+        const newDoc = {
+            ...current,
+            budget: req.params.amount
+        }
+        await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: newDoc});
+        res.send(newDoc);
+    } catch (e) {
+        console.error(e);
+    }
+});
+
 //UPDATE PURCHASES OBJECT WITH NEW PURCHASE
 router.put('/:id/add/:store/:amount/:date', async (req, res) => {
     const id = uniqid()
