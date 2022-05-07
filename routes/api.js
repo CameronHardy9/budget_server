@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const uniqid = require('uniqid');
 
+// ADD NEW USER
+router.post('/:id', async(req, res) => {
+    const newDoc = {
+        _id: req.params.id,
+        budget: 0,
+        purchases: []
+    }
+    try {
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").insertOne(newDoc);
+        res.send(result);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // GET FULL DOCUMENT
 router.get('/:id', async (req, res) => {
@@ -37,6 +51,8 @@ router.put('/:id/budget/:amount', async (req, res) => {
         console.error(e);
     }
 });
+
+//TODO: UPDATE SINGLE PURCHASE DATA
 
 //UPDATE PURCHASES OBJECT WITH NEW PURCHASE
 router.put('/:id/add/:store/:amount/:date', async (req, res) => {
