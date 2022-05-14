@@ -100,8 +100,8 @@ router.delete ('/:id/delete/:purchaseId', async (req, res) => {
 //DELETE ALL PURCHASES
 router.delete ('/:id/deleteAll', async (req, res) => {
     try {
-        await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: {purchases: []}});
-        res.send(newDoc);
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: {purchases: []}});
+        res.send(result);
     } catch (e) {
         console.error(e);
     }
