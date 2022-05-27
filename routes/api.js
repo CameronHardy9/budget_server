@@ -52,7 +52,15 @@ router.put('/:id/budget/:amount', async (req, res) => {
     }
 });
 
-//TODO: UPDATE SINGLE PURCHASE DATA
+//UPDATE SINGLE PURCHASE DATA
+router.put('/:id/purchases', async (req,res) => {
+    try {
+        await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: req.body});
+        res.send(newDoc);
+    } catch (e) {
+        console.error(e);
+    }
+});
 
 //UPDATE PURCHASES OBJECT WITH NEW PURCHASE
 router.put('/:id/add/:store/:amount/:date', async (req, res) => {
