@@ -55,8 +55,8 @@ router.put('/:id/budget/:amount', async (req, res) => {
 //UPDATE SINGLE PURCHASE DATA
 router.put('/:id/purchases', async (req,res) => {
     try {
-        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: JSON.stringify(req.body)});
-        res.send(req.body);
+        const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: req.body});
+        res.send(result);
     } catch (e) {
         console.error(e);
     }
