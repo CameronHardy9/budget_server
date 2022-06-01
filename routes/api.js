@@ -56,7 +56,7 @@ router.put('/:id/budget/:amount', async (req, res) => {
 router.put('/:id/purchases', async (req,res) => {
     try {
         const result = await req.app.locals.client.db("Family_Budget_App").collection("Budget").updateOne({"_id": req.params.id}, {$set: req.body});
-        res.send(result);
+        res.send(req.body);
     } catch (e) {
         console.error(e);
     }
